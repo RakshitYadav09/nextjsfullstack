@@ -1,15 +1,14 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Clock, Star, ChevronDown, ChevronUp, Loader2 } from 'lucide-react'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Clock, Star, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 interface CourseCardProps {
-
   courseId: string;
   title: string;
   description: string;
@@ -21,14 +20,13 @@ interface CourseCardProps {
   addVideo: () => void; // admin only
   isAdmin: boolean | undefined;
   isLoading?: boolean;
-  purchasedCourseId?:string;
-  
+  purchasedCourseId?: string;
 
-  imageUrl?: string
-  duration?: string
-  level?: string
-  rating?: number
-  features?: string[]
+  imageUrl?: string;
+  duration?: string;
+  level?: string;
+  rating?: number;
+  features?: string[];
 }
 
 export default function CourseCard({
@@ -36,7 +34,7 @@ export default function CourseCard({
   title = "Advanced Web Development Masterclass",
   description = "Master the latest web technologies and frameworks in this comprehensive course.",
   price = 99.99,
-  thumbnail="/placeholder.svg?height=400&width=600",
+  thumbnail = "/placeholder.svg?height=400&width=600",
   onViewClick,
   onWatchClick,
   onAddToCartClick,
@@ -54,11 +52,11 @@ export default function CourseCard({
     "Job placement assistance"
   ]
 }: CourseCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false);
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-64">
         <Loader2 className="animate-spin h-12 w-12 text-blue-500" />
       </div>
     );
@@ -67,38 +65,37 @@ export default function CourseCard({
   return (
     <Card className="w-full max-w-md overflow-hidden">
       <div className="relative">
-        <img 
-          src={thumbnail} 
-          alt={title} 
+        <img
+          src={thumbnail}
+          alt={title}
           className="w-full h-48 object-cover"
         />
         <Badge className="absolute top-2 right-2 bg-primary text-primary-foreground">
           {level}
         </Badge>
-        
-            {/* Admin-only Add Video Button */}
-    {isAdmin && (
-      <Button
-        variant="destructive"
-        className="px-4 py-2 text-sm absolute bottom-40"
-        onClick={addVideo}
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          "Add Videos"
-        )}
-      </Button>
-    )}
 
+        {/* Admin-only Add Video Button */}
+        {isAdmin && (
+          <Button
+            variant="destructive"
+            className="px-4 py-2 text-sm absolute bottom-4 right-2"
+            onClick={addVideo}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              "Add Videos"
+            )}
+          </Button>
+        )}
       </div>
       <CardHeader>
         <CardTitle className="text-2xl font-bold">{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-muted-foreground mb-4">
-        {description.length > 60 ? `${description.substring(0, 115)}...` : description}
+          {description.length > 60 ? `${description.substring(0, 115)}...` : description}
         </p>
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
@@ -110,9 +107,9 @@ export default function CourseCard({
             <span className="text-sm font-semibold">{rating}</span>
           </div>
         </div>
-        <Progress value={price/20} className="mb-2" />
-        <p className="text-sm text-muted-foreground mb-4">{(price/20).toFixed()}% of students completed this course</p>
-        <motion.div 
+        <Progress value={price / 20} className="mb-2" />
+        <p className="text-sm text-muted-foreground mb-4">{(price / 20).toFixed()}% of students completed this course</p>
+        <motion.div
           initial={false}
           animate={{ height: isExpanded ? 'auto' : 0 }}
           transition={{ duration: 0.3 }}
@@ -126,57 +123,56 @@ export default function CourseCard({
           </ul>
         </motion.div>
       </CardContent>
-      <CardFooter className="flex flex-col items-stretch">
-
-        <div className="flex justify-between items-center w-full mb-4">
-         {/* Conditionally render buttons */}
-    {purchasedCourseId === courseId ? (
-      <Button
-      variant="default"
-      className="px-4 py-2 text-sm mx-auto w-full"
-      onClick={onWatchClick} // Redirect to course content or watch page
-      disabled={isLoading}
-      >
-        {isLoading ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          "Watch Now"
-        )}
-      </Button>
-    ) : (
-      <>
-      <span className="text-2xl font-bold">₹{price}</span>
-        <Button
-          variant="outline"
-          className="px-4 py-2 text-sm"
-          onClick={onAddToCartClick}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      <CardFooter className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2 w-full">
+          {/* Conditionally render buttons */}
+          {purchasedCourseId === courseId ? (
+            <Button
+              variant="default"
+              className="px-4 py-2 text-sm w-full"
+              onClick={onWatchClick} // Redirect to course content or watch page
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                "Watch Now"
+              )}
+            </Button>
           ) : (
-            "Add to Cart"
+            <>
+              <span className="text-2xl font-bold text-center">₹{price}</span>
+              <Button
+                variant="outline"
+                className="px-4 py-2 text-sm w-full"
+                onClick={onAddToCartClick}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Add to Cart"
+                )}
+              </Button>
+              <Button
+                variant="default"
+                className="px-4 py-2 text-sm w-full"
+                onClick={onViewClick}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "View Details"
+                )}
+              </Button>
+            </>
           )}
-        </Button>
-        <Button
-          variant="default"
-          className="px-4 py-2 text-sm"
-          onClick={onViewClick}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            "View Details"
-          )}
-        </Button>
-      </>
-    )}
         </div>
-        
-        <Button 
-          variant="ghost" 
-          className="w-full"
+
+        <Button
+          variant="ghost"
+          className="w-full flex justify-center items-center text-sm"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded ? (
@@ -193,6 +189,5 @@ export default function CourseCard({
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }
-
